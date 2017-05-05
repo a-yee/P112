@@ -31,6 +31,16 @@ plot(ww200)
 % outer product to create a matrix of cosine values
 xpix = ones(256,1) * cos(2 * pi * (0:255) / 16);
 
+% look at one row of the cosine matrix
+% we do this since each row is the same. Fix the row index. I chose 1
+% arbitrarily.
+twne = xpix(1,1:17);
+plot(twne)
+show_img(xpix) % zoom in to see the pixel colors
+
+% twne will have 1 period of values, plus one extra value to verify that we
+% indeed cycle back to the starting value.
+
 % since we want 5 black bands w/ white band separations => 5 periods
 % working with pixels => 400x400 matrix = 400x400 image
 % 400 / 80 = 5 => use 80 as your period to get 5 periods in a 400px span
