@@ -1,5 +1,6 @@
 ---
 geometry: margin=1in
+toc: true
 ---
 
 ## Project Notes

@@ -54,3 +54,11 @@ show_img(ypix);
 % downsampling
 wp = ww(1:2:end,1:2:end);
 show_img(wp)
+
+% Lab 3.2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% get the down 2 sample version
+
+wp = ww(1:3:end, 1:3:end);
+xx3 = ww(1:3:end, 1:3:end);

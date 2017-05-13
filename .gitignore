@@ -1,4 +1,4 @@
 1-DigitalImage.pdf
-show_img.m
-trusize.m
+src/show_img.m
+src/trusize.m
 
