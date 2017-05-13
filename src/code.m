@@ -54,6 +54,7 @@ show_img(xpix) % zoom in to see the pixel colors
 title('Image of xpix, stack of cosines matrix')
 xlabel('column index (n)')
 ylabel('row index (m)')
+screen2jpeg('xpix.jpg')
 
 xpix = xpix';
 show_img(xpix)

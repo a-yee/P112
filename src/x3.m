@@ -4,6 +4,12 @@ load lighthouse
 
 p = 3;
 xx3 = ww(1:3:end, 1:p:end);
+show_img(xx3)
+title('downsample p=3 lighthouse')
+xlabel('column index (n)')
+ylabel('row index (m)')
+screen2jpeg('test.jpg')
+
 
 SIZE = size(xx3);
 
@@ -28,3 +34,9 @@ for i = 1:3*C
     xrlinear = interp1(n2, out(1:R,i), tt2); 
     out(:,i) = xrlinear;
 end
+
+show_img(out)
+title('interp1 p=3 approximation of lighthouse')
+xlabel('column index (max size = 3*n)')
+ylabel('row index (max size = 3*m)')
+screen2jpeg('interp1_pic.jpg')
