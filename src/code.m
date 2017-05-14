@@ -17,7 +17,7 @@ show_img(ww)
 title('Original Lighthouse Img')
 xlabel('column index (n)')
 ylabel('row index (m)')
-screen2jpeg('lighthouse.jpg')
+%screen2jpeg('lighthouse.jpg')
 
 
 % for indexing ":" usually means all indices if by itself. Syntax for range of
@@ -34,7 +34,7 @@ plot(ww200)
 title('Values of 1 line of horizontal pixels in lighthouse')
 xlabel('vector index')
 ylabel('grayscale intensity value')
-screen2jpeg('show_ww.jpg')
+%screen2jpeg('show_ww.jpg')
 
 % Warm up 2.1
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -54,14 +54,14 @@ show_img(xpix) % zoom in to see the pixel colors
 title('Image of xpix, stack of cosines matrix')
 xlabel('column index (n)')
 ylabel('row index (m)')
-screen2jpeg('xpix.jpg')
+%screen2jpeg('xpix.jpg')
 
 xpix = xpix';
 show_img(xpix)
 title('Transpose of xpix img')
 xlabel('row index (m)')
 ylabel('column index (n)')
-screen2jpeg('xpix_transpose.jpg')
+%screen2jpeg('xpix_transpose.jpg')
 
 % twne will have 1 period of values, plus one extra value to verify that we
 % indeed cycle back to the starting value.
@@ -86,7 +86,7 @@ show_img(wp)
 title('p=2 Down Sampled Lighthouse')
 xlabel('column index (n)')
 ylabel('row index (m)')
-screen2jpeg('downsample2.jpg')
+%screen2jpeg('downsample2.jpg')
 
 down_size = size(wp);
 

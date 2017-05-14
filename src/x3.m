@@ -8,7 +8,7 @@ show_img(xx3)
 title('downsample p=3 lighthouse')
 xlabel('column index (n)')
 ylabel('row index (m)')
-screen2jpeg('test.jpg')
+% screen2jpeg('test.jpg')
 
 
 SIZE = size(xx3);
