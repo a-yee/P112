@@ -29,7 +29,7 @@ header-includes:
 
 
 
-The outer product essentially creates a matrix, that is 256 copies of the cosine
+The outer product creates a matrix, that is 256 copies of the cosine
 vector stacked on top of each other. It is because of this structure that the
 resulting image is a bunch of vertical bands. 
 
@@ -123,7 +123,7 @@ show_img(ww);
 \begin{figure}[H]
     \centering
     \centerline{\includegraphics[width=550px]{pics/original_ns.png}}
-    \caption{Zoomed In View of Cosine Image}
+    \caption{Original Lighthouse Image}
     \label{fig:lighthouse}
 \end{figure}
 
@@ -190,7 +190,7 @@ plot(ww(200,:)); 	% plot the values of the 200th row
     \label{fig:spatial_chirp}
 \end{figure}
 
-Figure \ref{fig:spatial_chirp} allows us to determine the frequency in the left, low frequency, and right, high frequency, regions.  34 troughs were counted between pixels 50-250, resulting in a 34/200 = 0.17 cycles per pixel frequency in the left half of the fence.  The right, aliased, half of the fence had about 35 troughs from pixels 250 -350 resulting in a frequency equal to 35/100 = 0.35 cycles per pixel.  This “Spatial Chirp,” or change in frequency across a space, is clear here, as the frequency nearly doubles.[^1]  Our original image had a high enough sampling rate, so the high frequency portions of the image were properly displayed without aliasing.  In the downsampled version of the original image, the sampling rate was halved, and wasn’t large enough to display the high frequency portions of the image without aliasing.  The sampling theorem supports this understanding, as our input signal (fence posts’) frequency becomes greater than 2 times our sampling rate, or the Nyquist Rate.
+Figure \ref{fig:spatial_chirp} allows us to determine the frequency in the left, low frequency, and right, high frequency, regions.  34 troughs were counted between pixels 50-250, resulting in a 34/200 = 0.17 cycles per pixel frequency in the left half of the fence.  The right, aliased, half of the fence had about 35 troughs from pixels 250 -350 resulting in a frequency equal to 35/100 = 0.35 cycles per pixel.  This “Spatial Chirp,” or change in frequency across a space, is clear here, as the frequency nearly doubles.[^1]  Our original image had a high enough sampling rate, so the high frequency portions of the image were properly displayed without aliasing.  In the downsampled version of the original image, the sampling rate was halved, and wasn’t large enough to display the high frequency portions of the image without aliasing.  The sampling theorem supports this understanding, as our input signal (fence posts’) frequency becomes greater than 2 times our sampling rate.
 
 [^1]: Backround information from: http://frog.gatech.edu/Pubs/Gu-SpatialChirp-OptComm-2004.pdf, "Spatial chirp in ultrafast optics" by Gu, Akturk, Trebino.
 
@@ -270,7 +270,7 @@ end
     xhold(i,:) = xr1hold;
 ```
 
-We similarlly, expand column-wise to generate a full interpolated image, approximating the original lighthouse:
+We expand column-wise to generate a full interpolated image, approximating the original lighthouse:
 ```matlab
 for i = 1:p*C
     mm = ceil((0.999:1:p*R)/p);
@@ -345,7 +345,7 @@ for i = 1:R
     xxlinear(i,:) =  xr1linear;
 end
 
-for i = 1:3*C
+for i = 1:p*C
     xrlinear = interp1(n2, xxlinear(1:R,i), tt2); 
     xxlinear(:,i) = xrlinear; % result for 3.2(e)
 end
@@ -408,9 +408,61 @@ In xhold, the closest portion of the fence (near the lifesaver) is hard to make 
 
 ##### A couple of questions to think about: Are edges low frequency or high frequency features?  Are the fence posts low frequency or high frequency features?  Is the background a low frequency or high frequency feature?
 
-Edges are considered high frequency features.  An example of high frequency features would be the fence posts in the lighthouse image.  Low frequency areas of images are areas where the color/intensity doesn’t change drastically, i.e. smoother transition of color intensity values.  For instance, the roof of the background building would be a region low frequency features.  This is because all the pixels in the roof are about the same value in light intensity.
+The relationship between frequency and spatial variables in an image is closely tied to the fourier representations of the spatial function $f(x,y)$. To demonstrate a simplified example of this relationship, consider fixing $y = k$ where $k = constant$. To simulate this use the following MATLAB code:
 
-The best way to think about it is we are capturing light waves that are translated into values between 0 and 255.  Once our digital processor/computer reads in values from an image, each pixel is assigned a higher value, for white spaces (more light) or a lower value for darker spaces (less light).  So when we look at edges, the abrupt change in values from  light to dark or vice versa means that we are transitioning between high and low values (255 to 0)  It is high frequency because physically, the object’s steep difference in light intensity means a lot of information must be transmitted over small area. 
+```matlab
+% example pics and code for frequency to spatial coordinate relations
+R = 10;
+C = 10;
+
+image = zeros(200,100);
+image = [image, 255 * ones(200,100)];
+
+show_img(image) % shows edge example image
+plot(image(100,:)) % shows waveform of intensity values for a simulated edge	
+```
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=200px, height=200px]{pics/edge.jpg}
+        \captionof{figure}{Example of an edge in an image}
+        \label{fig:edge}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+        \centering
+        \includegraphics[width=200px, height=200px]{pics/edge_wave.jpg}
+        \captionof{figure}{Edge's spatial waveform of intensity values for row at fixed height k}
+        \label{fig:edge_wave}
+    \end{subfigure}
+    \caption{Example of an edge in an image}
+    \label{fig:edge_wave_1}
+\end{figure}
+
+Notice that the rate of change of the intensity curve in figure \ref{fig:edge_wave} is asymptotic near the edge occurance. In lecture we discusses how waveforms like this would require an infinite number of terms in the equivalent Fourier Series representation of the signal. Consider the less severe case: an edge with $\left| \dfrac{df(k,y)}{dy} \right| \rightarrow \text{large}$. Edges that are more gradual but still have $\left| \dfrac{df(k,y)}{dy} \right| \rightarrow \text{large}$, will have its number of sinusoidal terms approaching $\infty$, as it becomes like the step function. For these kinds of $f(x,y)$, the equivalent Fourier Series representation will require many high frequency components / sinusoidal waves to build the edge behavior. Each successive sinusoidal term is an increasing multiple of the fundamental frequency.
+
+$$
+\begin{aligned}
+	f(k,y) &= A_0 + \sum_{n=1}^{N} A_n cos(2\pi n f_0 y + \phi_n) \\
+	N &= Large
+\end{aligned}
+$$ 
+
+In this way, we can relate the frequency to the spatial function's derivative values. For 
+
+$$
+\begin{aligned}
+\left| \dfrac{df(k,y)}{dy} \right| &\rightarrow \text{large} \\ 
+\Rightarrow N \rightarrow \text{large in }  &f(k,y) = \left( A_0 + \sum_{n=1}^{N} A_n cos(2\pi n f_0 y + \phi_n) \right)
+\end{aligned}
+$$
+
+It is because of this relationship that edges are considered high frequency features. An example of high frequency features would be the fence posts in the lighthouse image.  Low frequency areas of images are areas where the color/intensity doesn’t change drastically, i.e. smoother transition of color intensity values.  For instance, the roof of the background building would be a region of low frequency features.  This is because all the pixels in the roof are about the same value in light intensity, i.e. $\left| \dfrac{df(k,y)}{dy} \right| \rightarrow \text{small}$. The inverse relationship between spatial function rates of change and frequency also hold.
+
+The best way to think about it is we are capturing light waves that are translated into values between 0 and 255.  Once our digital processor/computer reads in values from an image, each pixel is assigned a higher value for white spaces (more light) or a lower value for darker spaces (less light).  So when we look at edges, the abrupt change in values from  light to dark or vice versa means that we are transitioning between high and low values (255 to 0). It is high frequency because physically, the object’s steep difference in light intensity means a lot of information must be transmitted over small area. 
 
 Regions of low frequency are areas that have only small changes with respect to the pixels/light representation of objects around them.  Visually this translates to areas of similar color and light intensity (although we only care about light intensity if we are working with monochrome colors).  These are low frequency regions as there is little information change in the region.  Hence, the light needs to transmit less data in the region and thus a lower frequency wave is used.
+
+
 
