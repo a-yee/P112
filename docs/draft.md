@@ -408,7 +408,7 @@ In xhold, the closest portion of the fence (near the lifesaver) is hard to make 
 
 ##### A couple of questions to think about: Are edges low frequency or high frequency features?  Are the fence posts low frequency or high frequency features?  Is the background a low frequency or high frequency feature?
 
-The relationship between frequency and spatial variables in an image is closely tied to the fourier representations of the spatial function $f(x,y)$. To demonstrate a simplified example of this relationship, consider fixing $y = k$ where $k = constant$. To simulate this use the following MATLAB code:
+The relationship between frequency and spatial variables in an image is closely tied to the Fourier representations of the spatial function $f(x,y)$. To demonstrate a simplified example of this relationship, consider fixing $y = k$ where $k = constant$. To simulate this use the following MATLAB code:
 
 ```matlab
 % example pics and code for frequency to spatial coordinate relations
@@ -440,7 +440,7 @@ plot(image(100,:)) % shows waveform of intensity values for a simulated edge
     \label{fig:edge_wave_1}
 \end{figure}
 
-Notice that the rate of change of the intensity curve in figure \ref{fig:edge_wave} is asymptotic near the edge occurance. In lecture we discusses how waveforms like this would require an infinite number of terms in the equivalent Fourier Series representation of the signal. Consider the less severe case: an edge with $\left| \dfrac{df(k,y)}{dy} \right| \rightarrow \text{large}$. Edges that are more gradual but still have $\left| \dfrac{df(k,y)}{dy} \right| \rightarrow \text{large}$, will have its number of sinusoidal terms approaching $\infty$, as it becomes like the step function. For these kinds of $f(x,y)$, the equivalent Fourier Series representation will require many high frequency components / sinusoidal waves to build the edge behavior. Each successive sinusoidal term is an increasing multiple of the fundamental frequency.
+Notice that the rate of change of the intensity curve in figure \ref{fig:edge_wave} is asymptotic near the edge occurance. In lecture we discussed how waveforms like this would require an infinite number of terms in the equivalent Fourier Series representation of the signal. Consider the less severe case: an edge with $\left| \dfrac{df(k,y)}{dy} \right| \rightarrow \text{large}$. Edges that are more gradual but still have $\left| \dfrac{df(k,y)}{dy} \right| \rightarrow \text{large}$, will have its number of sinusoidal terms approaching $\infty$, as it becomes like the step function. For these kinds of $f(x,y)$, the equivalent Fourier Series representation will require many high frequency components / sinusoidal waves to build the edge behavior. Each successive sinusoidal term is an increasing multiple of the fundamental frequency.
 
 $$
 \begin{aligned}
