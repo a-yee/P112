@@ -19,6 +19,7 @@ C = SIZE(2); % columns
 xholdrows = zeros(p, p*C); % 3.2(b)
 xhold = zeros(p*R, p*C); % 3.2(c)
 
+% stretch rows, interpolate w/ zerohold
 for i = 1:R
     nn = ceil((0.999:1:p*C)/p);
     temp = xx3(i,:);
@@ -27,6 +28,7 @@ for i = 1:R
     xhold(i,:) = xr1hold;
 end
 
+% stretch cols, interpolate w/ zerohold
 for i = 1:p*C
     mm = ceil((0.999:1:p*R)/p);
     temp = xhold(:, i);
@@ -49,19 +51,26 @@ p = 3;
 xx3 = ww(1:p:end, 1:p:end);
 SIZE = size(xx3);
 
+% pre-define all consts & dims
 R = SIZE(1);
 C = SIZE(2);
+
+% pre-allocate storage matrix
 xxlinear = zeros(p*R, p*C); % 3.2(e)
 n1 = 1:C;
 n2 = 1:R;
+
+% (end - begin) / N = timestep
 tt1 = 1:.3310:C;
 tt2 = 1:.3310:R;
 
+% interpolate, stretch rows, interp1() MATLAB
 for i = 1:R
     xr1linear = interp1(n1, xx3(i,:), tt1);
     xxlinear(i,:) = xr1linear;
 end
 
+% interpolate, stretch columns
 for i = 1:p*C
     xrlinear = interp1(n2, xxlinear(1:R,i), tt2);
     xxlinear(:,i) = xrlinear; % result for 3.2(e)
